@@ -2,12 +2,12 @@ import org.apache.spark.{SparkConf, SparkContext}
 import play.api.libs.json._
 import service.{MyDomainToUsefulDomainConverter, MyParser}
 
+/**
+  * Faço o parse dos jsons da fundamentus, calculo a media de
+  * algum indicador que eu não lembro por setor, e faz o print
+  * da lista da empresa, com a media do setor, e o valor do indicador
+  */
 object Analise1 {
-  /**
-    * Faço o parse dos jsons da fundamentus, calculo a media de
-    * algum indicador que eu não lembro por setor, e faz o print
-    * da lista da empresa, com a media do setor, e o valor do indicador
-    */
 
   def main(args: Array[String]): Unit = {
 
