@@ -19,9 +19,12 @@ object Analise2 {
 
     val sc = new SparkContext(new SparkConf().setAppName("hello-spark").setMaster("local[*]"))
 
-    val medias = sc
+    val myData = sc
       .textFile("./input/teste.txt")
       .map(x => fromTextToTuples(x))
+      .persist()
+
+    val medias = myData
       .map(x => (x._1, (x._3, 1)))
       .reduceByKey((x, y) => (x._1 + y._1, x._2 + y._2))
       .mapValues(x => (x._1 / x._2, x._2))
@@ -52,6 +55,22 @@ object Analise2 {
       .persist()
 
     desvioPadrao
+      .collect()
+      .foreach(x => println(x))
+
+    myData
+      .map(x => (x._1, (x._2, x._3)))
+      .join(medias)
+      .join(desvioPadrao)
+      .map(x => {
+        val nomePessoa = x._2._1._1._1
+        val materia = x._1
+        val notaPessoa = x._2._1._1._2
+        val mediaMateria = x._2._1._2._1
+        val dpMateria = x._2._2
+        val qtdDesviosPadroesDaPessoa = (notaPessoa - mediaMateria)/dpMateria
+        (nomePessoa, qtdDesviosPadroesDaPessoa, materia, notaPessoa, mediaMateria, dpMateria)
+      })
       .collect()
       .foreach(x => println(x))
 
