@@ -35,17 +35,7 @@ object Analise2 {
       .map(x => fromTextToTuples(x))
       .map(x => (x._1, (x._2, x._3)))
       .join(medias)
-      .map(x => {
-        val disciplina = x._1
-        val tupleValue = x._2
-        val nomePessoa = tupleValue._1._1
-        val notaPessoa = tupleValue._1._2
-        val mediaDisciplina = tupleValue._2._1
-        val quantidadePessoasNaDisciplina = tupleValue._2._2
-        val difference = notaPessoa - mediaDisciplina
-        val quadrados= difference * difference
-        (disciplina, (nomePessoa, notaPessoa, mediaDisciplina, quantidadePessoasNaDisciplina, quadrados))
-      })
+      .map(x => calculaQuadrados(x))
       .combineByKey(
         previousTuple => (previousTuple._5, previousTuple._4),
         (c: (Double, Int), previousTuple) => (c._1 + previousTuple._5, c._2),
@@ -62,18 +52,33 @@ object Analise2 {
       .map(x => (x._1, (x._2, x._3)))
       .join(medias)
       .join(desvioPadrao)
-      .map(x => {
-        val nomePessoa = x._2._1._1._1
-        val materia = x._1
-        val notaPessoa = x._2._1._1._2
-        val mediaMateria = x._2._1._2._1
-        val dpMateria = x._2._2
-        val qtdDesviosPadroesDaPessoa = (notaPessoa - mediaMateria)/dpMateria
-        (nomePessoa, qtdDesviosPadroesDaPessoa, materia, notaPessoa, mediaMateria, dpMateria)
-      })
+      .map(x => calculaQtdDesviosPadroes(x))
       .collect()
       .foreach(x => println(x))
 
   }
 
+  private def calculaQtdDesviosPadroes(x: (String, (((String, Double), (Double, Int)), Double))) = {
+    val nomePessoa = x._2._1._1._1
+    val materia = x._1
+    val notaPessoa = x._2._1._1._2
+    val mediaMateria = x._2._1._2._1
+    val dpMateria = x._2._2
+    val qtdDesviosPadroesDaPessoa = (notaPessoa - mediaMateria) / dpMateria
+
+    (nomePessoa, qtdDesviosPadroesDaPessoa, materia, notaPessoa, mediaMateria, dpMateria)
+  }
+
+  private def calculaQuadrados(x: (String, ((String, Double), (Double, Int)))) = {
+    val disciplina = x._1
+    val tupleValue = x._2
+    val nomePessoa = tupleValue._1._1
+    val notaPessoa = tupleValue._1._2
+    val mediaDisciplina = tupleValue._2._1
+    val quantidadePessoasNaDisciplina = tupleValue._2._2
+    val difference = notaPessoa - mediaDisciplina
+    val quadrados = difference * difference
+
+    (disciplina, (nomePessoa, notaPessoa, mediaDisciplina, quantidadePessoasNaDisciplina, quadrados))
+  }
 }
