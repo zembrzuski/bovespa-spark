@@ -18,7 +18,6 @@ object KMeans {
     val myCentroidsSparkContext = sc.parallelize(mycentroids)
 
     myDataset
-      //.filter(x => !mycentroids.contains(x))
       .cartesian(myCentroidsSparkContext)
       .map(x => (x._1, (x._2, computeEuclidianDistance(x._1._1, x._2._1))))
       .reduceByKey((x1, x2) => if (x1._2 < x2._2) x1 else x2)
@@ -30,7 +29,6 @@ object KMeans {
       )
       .mapValues(x => (x._1.toDouble/x._3, x._2.toDouble/x._3))
       .map(x => (x._2._1, x._2._2))
-      // find nearest neighbors
       .collect()
       .foreach(x => println(x))
 
