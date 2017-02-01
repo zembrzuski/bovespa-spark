@@ -3,7 +3,7 @@ import org.apache.spark.{SparkConf, SparkContext}
 /**
   * Calculating jaccard coefficient index.
   */
-object JaccardCoeficient {
+object JaccardCoefficient {
 
   def main(args: Array[String]): Unit = {
 
