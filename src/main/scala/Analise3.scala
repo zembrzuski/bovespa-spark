@@ -10,24 +10,24 @@ object Analise3 {
 
     val sc = new SparkContext(new SparkConf().setAppName("hello-spark").setMaster("local[*]"))
 
-    val minhasEmpresas = sc
-      .textFile("./input/teste2.txt")
-      .map(x => fromTextToTuple(x))
-      .combineByKey(
-        v => (v, v),
-        (acc: (Int, Int), comb: Int) => {
-          val minimo = if (acc._1 < comb) acc._1 else comb
-          val maximo = if (acc._2 > comb) acc._2 else comb
-          (minimo, maximo)
-        },
-        (acc1: (Int, Int), acc2: (Int, Int)) => {
-          val minimo = if (acc1._1 < acc2._1) acc1._1 else acc2._1
-          val maximo = if (acc1._2 > acc2._2) acc1._2 else acc2._2
-          (minimo, maximo)
-        }
-      )
-      .collect()
-      .foreach(println)
+//    val minhasEmpresas = sc
+//      .textFile("./input/teste2.txt")
+//      .map(x => fromTextToTuple(x))
+//      .combineByKey(
+//        v => (v, v),pw
+//        (acc: (Int, Int), comb: Int) => {
+//          val minimo = if (acc._1 < comb) acc._1 else comb
+//          val maximo = if (acc._2 > comb) acc._2 else comb
+//          (minimo, maximo)
+//        },
+//        (acc1: (Int, Int), acc2: (Int, Int)) => {
+//          val minimo = if (acc1._1 < acc2._1) acc1._1 else acc2._1
+//          val maximo = if (acc1._2 > acc2._2) acc1._2 else acc2._2
+//          (minimo, maximo)
+//        }
+//      )
+//      .collect()
+//      .foreach(println)
 
   }
 

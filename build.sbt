@@ -4,6 +4,8 @@ version := "1.0"
 scalaVersion := "2.10.4"
 
 libraryDependencies += "org.apache.spark" % "spark-core_2.10" % "2.1.0"
+libraryDependencies += "org.apache.spark" % "spark-streaming_2.10" % "2.1.0"
+
 //libraryDependencies += "org.mongodb.spark" % "mongo-spark-connector_2.10" % "0.1"
 libraryDependencies += "org.mongodb.spark" % "mongo-spark-connector_2.11" % "1.1.0"
 
