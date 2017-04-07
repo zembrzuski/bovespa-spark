@@ -23,32 +23,25 @@ object Analise1 {
       .map(x => ((x.setor, x.subsetor), (x.pSobreVp, 1)))
       .reduceByKey((e1, e2) => (e1._1 + e2._1, e1._2 + e2._2))
       .map {
-        case (key, value) => (key, value._1 / value._2)
+        case (key, value) => ((key, value._1 / value._2), value._2)
       }
-//      .sortBy(x => x._2, ascending = false)
+      .sortBy(x => x._1._2, ascending = false)
 
-    // agora, vou tentar fazer um join para mostrar a emresa, seu pSobreVp e pode compara-lo com
-    // a media do setor. depois, vou fazer um intervalo de confianca bem massa.
+//    minhasEmpresas
+//      .filter(x => x.pSobreVp > 0)
+//      .map(x => ((x.setor, x.subsetor), x))
+//      .join(mediaPorSetor)
+//      .map{
+//        case(key, value) =>
+//          val emp = value._1
+//          (emp.siglaEmpresa, emp.setor, emp.subsetor, emp.pSobreVp, value._2)
+//      }
+//      .collect()
+//      .foreach(x => println(x))
 
-    minhasEmpresas
-      .filter(x => x.pSobreVp > 0)
-      .map(x => ((x.setor, x.subsetor), x))
-      .join(mediaPorSetor)
-      .map{
-        case(key, value) =>
-          val emp = value._1
-          (emp.siglaEmpresa, emp.setor, emp.subsetor, emp.pSobreVp, value._2)
-      }
+    mediaPorSetor
       .collect()
-      .foreach(x => println(x))
-
-
-
-
-
-//    mediaPorSetor
-//      .take(10)
-//      .foreach(println)
+      .foreach(println)
 
   }
 

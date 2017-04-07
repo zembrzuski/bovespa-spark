@@ -17,8 +17,9 @@ object MyDomainToUsefulDomainConverter {
     val pSobreVp = fromStringToDouble(input.p1.pSobreVp)
     val lpa = fromStringToDouble(input.p2.lpa)
     val lucroLiquido = fromStringToDouble(input.p2.lucroLiquido)
+    val patrimonioLiquido = fromStringToDouble(input.p3.patrimonioLiquido)
 
-    MyUsefulDomain(empresa, papel, setor, subsetor, pSobreL, pSobreVp, lpa, lucroLiquido)
+    MyUsefulDomain(empresa, papel, setor, subsetor, pSobreL, pSobreVp, lpa, lucroLiquido, patrimonioLiquido)
   }
 
 
